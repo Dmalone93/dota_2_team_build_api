@@ -1,0 +1,56 @@
+body, html {
+  font-family: 'Ubuntu', sans-serif;
+  color: white;
+  background-color: #404040;
+  height: 100%;
+  background-image:
+      url("https://images.wallpaperscraft.com/image/dota_2_game_logo_background_92935_1680x1050.jpg");
+  background-size: cover;
+}
+}
+
+#dire-team-container {
+  box-sizing: content-box;
+  width: 100%;
+  border: solid white 30px;
+  padding: 5px;
+}
+
+#character-creator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+select {
+  background: transparent;
+ font-size: 14px;
+ height: 29px;
+ padding: 5px;
+ width: 220px;
+ color: white;
+ margin-right: 20px
+}
+
+h1 {
+  font-family: 'Ubuntu', sans-serif;
+  padding-left: 30px;
+  font-size: 20px;
+  background-image: url("https://wallimpex.com/data/out/372/blood-red-wallpaper-7462047.png");
+  border-radius: 2px;
+  text-align: center;
+  margin: 30px;
+}
+
+header {
+  font-family: 'Ubuntu', sans-serif;
+  text-align: center;
+  color: white;
+  border-spacing: 20px;
+  font-size: 10px;
+  padding: 20px;
+  background-image: url("https://wallimpex.com/data/out/372/blood-red-wallpaper-7462047.png");
+  border-radius: 3px;
+  margin: 30px;
+
+}
