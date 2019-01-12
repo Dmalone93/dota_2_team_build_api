@@ -93,7 +93,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("const DotaListView = __webpack_require__(/*! ./views/dota_list_view.js */ \"./src/views/dota_list_view.js\")\nconst Dota = __webpack_require__(/*! ./models/dota.js */ \"./src/models/dota.js\")\n\n\ndocument.addEventListener('DOMContentLoaded', () => {\n  console.log('Javascript Loaded');\n\n\n  const heroMenu = document.querySelector('#character-select')\n  const heroChoice = document.querySelector('#line-up-container')\n  const dotaListView = new DotaListView(heroMenu, heroChoice);\n  dotaListView.bindEvents();\n\n\n  const dota = new Dota();\n  dota.bindEvents();\n  dota.getData();\n\n})\n\n\n//# sourceURL=webpack:///./src/app.js?");
+eval("const DotaListView = __webpack_require__(/*! ./views/dota_list_view.js */ \"./src/views/dota_list_view.js\");\nconst Dota = __webpack_require__(/*! ./models/dota.js */ \"./src/models/dota.js\");\nconst SelectView = __webpack_require__(/*! ./views/select_view.js */ \"./src/views/select_view.js\");\n\n\ndocument.addEventListener('DOMContentLoaded', () => {\n  console.log('Javascript Loaded');\n\n  const heroRoleSelector = document.querySelector('#role-select');\n  const selectView = new SelectView(heroRoleSelector);\n  selectView.bindEvents();\n\n  const heroMenu = document.querySelector('#character-select')\n  const heroChoice = document.querySelector('#role-select')\n  const dotaListView = new DotaListView(heroMenu, heroChoice);\n  dotaListView.bindEvents();\n\n\n  const dota = new Dota();\n  dota.bindEvents();\n  dota.getData();\n\n})\n\n\n//# sourceURL=webpack:///./src/app.js?");
 
 /***/ }),
 
@@ -126,7 +126,7 @@ eval("const Request = function(url){\n  this.url = url\n};\n\nRequest.prototype.
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("const PubSub = __webpack_require__(/*! ../helpers/pub_sub.js */ \"./src/helpers/pub_sub.js\")\nconst Request = __webpack_require__(/*! ../helpers/request.js */ \"./src/helpers/request.js\")\n\nconst Dota = function(){\n  this.heroes = [];\n}\n\nDota.prototype.bindEvents = function(){\n  PubSub.subscribe('DotaListView:character-names-ready', (event) => {\n    console.log(event.detail);\n    // this.heroes.addEventListener()\n  })\n}\n\nDota.prototype.getData = function(){\n  const request = new Request('https://api.opendota.com/api/heroes')\n  request.get().then((data) => {\n    this.heroes = data;\n    PubSub.publish('Dota:all-ready', this.heroes)\n  });\n}\n\nmodule.exports = Dota;\n\n\n//# sourceURL=webpack:///./src/models/dota.js?");
+eval("const PubSub = __webpack_require__(/*! ../helpers/pub_sub.js */ \"./src/helpers/pub_sub.js\")\nconst Request = __webpack_require__(/*! ../helpers/request.js */ \"./src/helpers/request.js\")\n\nconst Dota = function(){\n  this.heroes = [];\n}\n\nDota.prototype.bindEvents = function(){\n  PubSub.subscribe('DotaListView:character-names-ready', (event) => {\n    console.log(\"passing event\", event.detail);\n    this.findByRole(event.detail)\n    PubSub.subscribe('SelectView:player-roles-ready',() => {\n\n    })\n  })\n}\n\nDota.prototype.getData = function(){\n  const request = new Request('https://api.opendota.com/api/heroes')\n  request.get().then((data) => {\n    this.heroes = data;\n    PubSub.publish('Dota:all-ready', this.heroes)\n  });\n};\n\n\nDota.prototype.findByRole = function(role){\n  return this.heroes.filter((hero) => {\n    return hero.role === role;\n  })\n}\n\nmodule.exports = Dota;\n\n\n//# sourceURL=webpack:///./src/models/dota.js?");
 
 /***/ }),
 
@@ -137,7 +137,18 @@ eval("const PubSub = __webpack_require__(/*! ../helpers/pub_sub.js */ \"./src/he
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("const PubSub = __webpack_require__(/*! ../helpers/pub_sub.js */ \"./src/helpers/pub_sub.js\")\n\nconst DotaListView = function(container, heroContainer){\n  this.container = container\n  this.heroContainer = heroContainer\n};\n\nDotaListView.prototype.bindEvents = function(){\n  PubSub.subscribe('Dota:all-ready', (event) => {\n    this.populate(event.detail)\n    PubSub.publish('DotaListView:character-names-ready', event.detail)\n  })\n};\n\n\nDotaListView.prototype.populate = function(allHeroes){\n\n  // const list = allHeroes.map((hero) => {\n  //   if(hero.primary_attr === \"str\"){\n  //     return hero.localized_name;\n  //   };\n  // });\n\n    allHeroes.forEach((hero) => {\n    const heroOption = document.createElement('option')\n    heroOption.value = hero\n    heroOption.textContent = hero.localized_name\n    this.container.appendChild(heroOption)\n  });\n};\n\nDotaListView.prototype.render = function(heroChosen){\n  heroChosen.forEach((choice) => {\n    const heroDetail = new DotaDetailView();\n    const playerDiv = heroDetail.createHeroDetail(heroChosen);\n    this.heroContainer.appendChild(playerDiv);\n\n  })\n  player = new DotaDetailView\n}\n\nmodule.exports = DotaListView;\n\n\n//# sourceURL=webpack:///./src/views/dota_list_view.js?");
+eval("const PubSub = __webpack_require__(/*! ../helpers/pub_sub.js */ \"./src/helpers/pub_sub.js\")\n\nconst DotaListView = function(container, roleChoice){\n  this.container = container\n  this.roleChoice = roleChoice\n};\n\nDotaListView.prototype.bindEvents = function(){\n  PubSub.subscribe('Dota:all-ready', (event) => {\n    this.populate(event.detail)\n    PubSub.publish('DotaListView:character-names-ready', event.detail)\n  })\n};\n\n\nDotaListView.prototype.populate = function(allHeroes){\n\n  allHeroes.forEach((hero) => {\n    const option = document.createElement('option');\n    option.value = JSON.stringify(hero)\n    option.textContent = hero.localized_name\n    this.container.appendChild(option)\n  })\n\n};\n\n\n\n\n\n\n\nDotaListView.prototype.render = function(heroChosen){\n  heroChosen.forEach((choice) => {\n    const heroDetail = new DotaDetailView();\n    const playerDiv = heroDetail.createHeroDetail(heroChosen);\n    this.heroContainer.appendChild(playerDiv);\n\n  })\n}\n\nmodule.exports = DotaListView;\n\n\n//# sourceURL=webpack:///./src/views/dota_list_view.js?");
+
+/***/ }),
+
+/***/ "./src/views/select_view.js":
+/*!**********************************!*\
+  !*** ./src/views/select_view.js ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("const PubSub = __webpack_require__(/*! ../helpers/pub_sub.js */ \"./src/helpers/pub_sub.js\")\n\nconst SelectView = function(container){\n  this.container = container\n}\n\nSelectView.prototype.bindEvents = function(){\n  PubSub.subscribe('DotaListView:character-names-ready', (event) => {\n    roleList = this.container\n    // PubSub.publish('SelectView:character-roles', event.detail)\n  });\n\n  this.container.addEventListener('change', (event) => {\n    const selectedCharacter = event.target.value\n    PubSub.publish('SelectView:player-roles-ready', selectedCharacter)\n  })\n}\n\n\nSelectView.prototype.populateRole = function(characters){\n  // list = characters.map((character) => {\n  //   return character.role\n  //   console.log(list);\n  // })\n\n  characters.forEach((character) => {\n    const heroRole = document.createElement('option')\n    heroOption.value = character\n    heroOption.textContent = character\n    this.container.appendChild(heroRole)\n    console.log(heroRole);\n  });\n}\n\nmodule.exports = SelectView;\n\n\n//# sourceURL=webpack:///./src/views/select_view.js?");
 
 /***/ })
 

@@ -54,3 +54,13 @@ header {
   margin: 30px;
 
 }
+
+button {
+background-color: #a22e2e;
+font-size: 16px;
+margin-top: 10px;
+color: white;
+border-radius: 5px;
+width  : 176px;
+margin-left: 50px;
+}

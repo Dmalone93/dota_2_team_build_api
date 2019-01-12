@@ -1,5 +1,5 @@
 const DotaDetailView = function(){
-
+//creates player square
 }
 
 DotaDetailView.prototype.createHeroDetail = function(hero){

@@ -7,8 +7,11 @@ const Dota = function(){
 
 Dota.prototype.bindEvents = function(){
   PubSub.subscribe('DotaListView:character-names-ready', (event) => {
-    console.log(event.detail);
-    // this.heroes.addEventListener()
+    console.log("passing event", event.detail);
+    this.findByRole(event.detail)
+    PubSub.subscribe('SelectView:player-roles-ready',() => {
+
+    })
   })
 }
 
@@ -18,6 +21,13 @@ Dota.prototype.getData = function(){
     this.heroes = data;
     PubSub.publish('Dota:all-ready', this.heroes)
   });
+};
+
+
+Dota.prototype.findByRole = function(role){
+  return this.heroes.filter((hero) => {
+    return hero.role === role;
+  })
 }
 
 module.exports = Dota;

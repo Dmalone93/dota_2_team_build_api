@@ -1,8 +1,8 @@
 const PubSub = require('../helpers/pub_sub.js')
 
-const DotaListView = function(container, heroContainer){
+const DotaListView = function(container, roleChoice){
   this.container = container
-  this.heroContainer = heroContainer
+  this.roleChoice = roleChoice
 };
 
 DotaListView.prototype.bindEvents = function(){
@@ -15,19 +15,20 @@ DotaListView.prototype.bindEvents = function(){
 
 DotaListView.prototype.populate = function(allHeroes){
 
-  // const list = allHeroes.map((hero) => {
-  //   if(hero.primary_attr === "str"){
-  //     return hero.localized_name;
-  //   };
-  // });
+  allHeroes.forEach((hero) => {
+    const option = document.createElement('option');
+    option.value = JSON.stringify(hero)
+    option.textContent = hero.localized_name
+    this.container.appendChild(option)
+  })
 
-    allHeroes.forEach((hero) => {
-    const heroOption = document.createElement('option')
-    heroOption.value = hero
-    heroOption.textContent = hero.localized_name
-    this.container.appendChild(heroOption)
-  });
 };
+
+
+
+
+
+
 
 DotaListView.prototype.render = function(heroChosen){
   heroChosen.forEach((choice) => {
@@ -36,7 +37,6 @@ DotaListView.prototype.render = function(heroChosen){
     this.heroContainer.appendChild(playerDiv);
 
   })
-  player = new DotaDetailView
 }
 
 module.exports = DotaListView;
