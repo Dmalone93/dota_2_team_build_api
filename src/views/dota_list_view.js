@@ -1,4 +1,5 @@
 const PubSub = require('../helpers/pub_sub.js')
+const DotaDetailView = require('./dota_detail_view.js')
 
 const DotaListView = function(container, roleChoice){
   this.container = container
@@ -11,7 +12,6 @@ DotaListView.prototype.bindEvents = function(){
   })
   this.container.addEventListener('change', (event) => {
     const selectedCharacter = event.target.value
-    console.log(selectedCharacter);
     PubSub.publish('DotaListView:character-selected', selectedCharacter)
   })
 };
@@ -23,17 +23,17 @@ DotaListView.prototype.populate = function(allHeroes){
     option.value = JSON.stringify(hero)
     option.textContent = hero.localized_name
     this.container.appendChild(option)
-  })
+  });
 
 };
 
-DotaListView.prototype.render = function(heroChosen){
-  heroChosen.forEach((choice) => {
-    const heroDetail = new DotaDetailView();
-    const playerDiv = heroDetail.createHeroDetail(heroChosen);
-    this.heroContainer.appendChild(playerDiv);
-
-  })
-}
+// DotaListView.prototype.render = function(heroChosen){
+//   heroChosen.forEach((choice) => {
+//     const heroDetail = new DotaDetailView();
+//     const playerDiv = heroDetail.createHeroDetail(heroChosen);
+//     this.heroContainer.appendChild(playerDiv);
+//
+//   })
+// }
 
 module.exports = DotaListView;

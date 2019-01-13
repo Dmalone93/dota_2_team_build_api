@@ -8,7 +8,6 @@ const Dota = function(){
 Dota.prototype.bindEvents = function(){
     PubSub.subscribe('SelectView:player-roles-ready',(event) => {
       const characterRole = event.detail
-      console.log(characterRole);
       PubSub.publish('Dota:single-character-ready', characterRole)
     });
 

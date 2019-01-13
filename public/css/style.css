@@ -1,12 +1,24 @@
 body, html {
   font-family: 'Ubuntu', sans-serif;
   color: white;
-  background-color: #404040;
+  background-color: black;
   height: 100%;
-  background-image:
-      url("https://images.wallpaperscraft.com/image/dota_2_game_logo_background_92935_1680x1050.jpg");
+  background-image: url('./wallpaper.jpg');
   background-size: cover;
+  background-image: url("http://i.imgur.com/uhzZyu8.jpg");
 }
+
+div#character-creator {
+  border: 1px solid white;
+  height: 100px;
+  width: auto;
+  padding: 20px;
+}
+
+img.wallpaper {
+  background-size: cover;
+  width: 991px;
+  height: 947px;
 }
 
 #dire-team-container {
@@ -56,11 +68,16 @@ header {
 }
 
 button {
-background-color: #a22e2e;
+background-color: darkgreen;
 font-size: 16px;
 margin-top: 10px;
 color: white;
 border-radius: 5px;
 width  : 176px;
 margin-left: 50px;
+
+}
+
+h2 {
+  text-align: center;
 }

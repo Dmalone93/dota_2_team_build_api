@@ -13,16 +13,17 @@
 
 
 <body>
+
   <header>
     <div id="main-header-container">
-      <img src="dota-2 (2).png" alt="logo" />
+      <img src="dota-2 (2).png" id="dota-logo" alt="logo" />
     </div>
   </header>
 
   <div id="main-container">
 
 
-    <form action="submit">
+    <form id="character-div-creator">
       <div id="character-creater">
         <select id="character-select">
           <option id="character-option">Pick a Character</option>
@@ -34,23 +35,23 @@
         </select>
 
 
-        <select id="team-picker-select">
+        <select id="team">
           <option id="team-picker-option">Pick a Team</option>
-          <option id="radient">Radient</option>
-          <option id="dire">Dire</option>
+          <option class="radient">Radient</option>
+          <option class="dire">Dire</option>
         </select>
 
-        <button type="submit">add player</button>
+        <button type="submit" class="btn" value="SAVE">SAVE</button>
       </div>
     </form>
 
 
     <div id="line-up-container">
-      <div id="dire-team-container">
+      <div class="dire-team-container">
         <h2>DIRE</h2>
       </div>
 
-      <div id="radient-team-container">
+      <div class="radient-team-container">
         <h2>RADIENT</h2>
       </div>
     </div>

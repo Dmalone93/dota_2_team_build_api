@@ -11,7 +11,6 @@ SelectView.prototype.bindEvents = function(){
   });
   this.container.addEventListener('change', (event) => {
     const selectedCharacterRole = event.target.value
-    console.log(selectedCharacterRole);
     PubSub.publish('SelectView:player-roles-ready', selectedCharacterRole)
   });
 }
