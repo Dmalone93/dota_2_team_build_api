@@ -8,10 +8,13 @@ const DotaListView = function(container, roleChoice){
 DotaListView.prototype.bindEvents = function(){
   PubSub.subscribe('Dota:all-ready', (event) => {
     this.populate(event.detail)
-    PubSub.publish('DotaListView:character-names-ready', event.detail)
+  })
+  this.container.addEventListener('change', (event) => {
+    const selectedCharacter = event.target.value
+    console.log(selectedCharacter);
+    PubSub.publish('DotaListView:character-selected', selectedCharacter)
   })
 };
-
 
 DotaListView.prototype.populate = function(allHeroes){
 
@@ -23,12 +26,6 @@ DotaListView.prototype.populate = function(allHeroes){
   })
 
 };
-
-
-
-
-
-
 
 DotaListView.prototype.render = function(heroChosen){
   heroChosen.forEach((choice) => {

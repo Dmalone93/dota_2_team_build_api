@@ -5,30 +5,26 @@ const SelectView = function(container){
 }
 
 SelectView.prototype.bindEvents = function(){
-  PubSub.subscribe('DotaListView:character-names-ready', (event) => {
-    roleList = this.container
-    // PubSub.publish('SelectView:character-roles', event.detail)
-  });
+  PubSub.subscribe('DotaListView:character-selected', (event) => {
+    this.populate(event.detail);
 
+  });
   this.container.addEventListener('change', (event) => {
-    const selectedCharacter = event.target.value
-    PubSub.publish('SelectView:player-roles-ready', selectedCharacter)
-  })
+    const selectedCharacterRole = event.target.value
+    console.log(selectedCharacterRole);
+    PubSub.publish('SelectView:player-roles-ready', selectedCharacterRole)
+  });
 }
 
 
-SelectView.prototype.populateRole = function(characters){
-  // list = characters.map((character) => {
-  //   return character.role
-  //   console.log(list);
-  // })
-
-  characters.forEach((character) => {
-    const heroRole = document.createElement('option')
-    heroOption.value = character
-    heroOption.textContent = character
-    this.container.appendChild(heroRole)
-    console.log(heroRole);
+SelectView.prototype.populate = function(hero){
+  this.container.innerHTML = ''
+  heroObject = JSON.parse(hero)
+  heroObject.roles.forEach((role) => {
+    const option = document.createElement('option');
+    option.value = role
+    option.textContent = role
+    this.container.appendChild(option);
   });
 }
 

@@ -1,20 +1,29 @@
-const DotaDetailView = function(){
-//creates player square
+const PubSub = require('../helpers/pub_sub.js')
+
+const DotaDetailView = function(direContainer,radientContainer){
+  this.direContainer = direContainer;
+  this.radientContainer = radientContainer;
+};
+
+
+DotaDetailView.prototype.bindEvents = function(){
+  PubSub.subscribe('DotaListView:character-selected', (event) => {
+    this.renderCharacter(event.detail)
+  })
+  PubSub.subscribe('SelectView:player-roles-ready', (event) => {
+    this.roleRender(event.detail)
+  })
 }
 
-DotaDetailView.prototype.createHeroDetail = function(hero){
-  const heroDiv = document.createElement('div');
 
-  const heroName = document.createElement('h2')
-  heroName.textContent = hero.localized_name
-  heroDiv.appendChild(heroName);
+DotaDetailView.prototype.renderCharacter = function(){
+  const header = document.createElement('h2');
 
-  const role = document.createElement('h3')
-  role.textContent = hero.role
-  heroDiv.appendChild(role)
 
-  return heroDiv
 }
 
+DotaDetailView.prototype.roleRender = function(){
+
+}
 
 module.exports = DotaDetailView;

@@ -6,13 +6,12 @@ const Dota = function(){
 }
 
 Dota.prototype.bindEvents = function(){
-  PubSub.subscribe('DotaListView:character-names-ready', (event) => {
-    console.log("passing event", event.detail);
-    this.findByRole(event.detail)
-    PubSub.subscribe('SelectView:player-roles-ready',() => {
+    PubSub.subscribe('SelectView:player-roles-ready',(event) => {
+      const characterRole = event.detail
+      console.log(characterRole);
+      PubSub.publish('Dota:single-character-ready', characterRole)
+    });
 
-    })
-  })
 }
 
 Dota.prototype.getData = function(){
@@ -23,11 +22,5 @@ Dota.prototype.getData = function(){
   });
 };
 
-
-Dota.prototype.findByRole = function(role){
-  return this.heroes.filter((hero) => {
-    return hero.role === role;
-  })
-}
 
 module.exports = Dota;
